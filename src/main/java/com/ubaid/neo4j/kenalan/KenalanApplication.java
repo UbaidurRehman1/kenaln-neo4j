@@ -2,6 +2,11 @@ package com.ubaid.neo4j.kenalan;
 
 import com.ubaid.neo4j.kenalan.entity.*;
 import com.ubaid.neo4j.kenalan.entity.Object;
+import com.ubaid.neo4j.kenalan.poi.dao.def.ManufacturerDAO;
+import com.ubaid.neo4j.kenalan.poi.dao.def.MaterialDAO;
+import com.ubaid.neo4j.kenalan.poi.dao.def.NodeDAO;
+import com.ubaid.neo4j.kenalan.poi.dao.def.ObjectDAO;
+import com.ubaid.neo4j.kenalan.poi.dao.imp.NodeTypeImp;
 import com.ubaid.neo4j.kenalan.repository.*;
 import com.ubaid.neo4j.kenalan.service.def.ObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,38 +16,46 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
+import java.util.Iterator;
+import java.util.Set;
+
 @SpringBootApplication
 @EnableNeo4jRepositories("com.ubaid.neo4j.kenalan.repository")
 @EntityScan(basePackages = "com.ubaid.neo4j.kenalan.entity")
 public class KenalanApplication implements CommandLineRunner
 {
-
-    @Autowired
-    private ObjectService objectService;
-
-    @Autowired
-    private AssemblyRepo assemblyRepo;
-
-    @Autowired
-    private MaterialRepo materialRepo;
-
-    @Autowired
-    private PartRepo partRepo;
-
-    @Autowired
-    private ManufacturerRepo manufacturerRepo;
-
-    @Autowired
-    private PersonRepo personRepo;
-
-    @Autowired
-    private MaintinanceEventRepo maintinanceEventRepo;
-
-    @Autowired
-    private MaintinanceRepo maintenanceRepo;
-
     @Autowired
     private AssignmentRepo assignmentRepo;
+
+    @Autowired
+    ManufacturerDAO manufacturerDAO;
+
+    @Autowired
+    MaterialDAO materialDAO;
+
+    @Autowired
+    ObjectDAO objectDAO;
+
+    @Autowired
+    NodeDAO nodeDAO;
+
+    @Autowired
+    ManufacturerRepo manufacturerRepo;
+
+    @Autowired
+    MaterialRepo materialRepo;
+
+    @Autowired
+    PartRepo partRepo;
+
+    @Autowired
+    AssemblyRepo assemblyRepo;
+
+    @Autowired
+    ObjectRepository objectRepository;
+
+    @Autowired
+    NodeTypeRepo nodeTypeRepo;
 
     public static void main(String[] args) {
         SpringApplication.run(KenalanApplication.class, args);
@@ -51,70 +64,38 @@ public class KenalanApplication implements CommandLineRunner
     @Override
     public void run(String... args) throws Exception {
 
-        Assembly assembly = new Assembly();
-        assembly.setName("Assembly1");
+        Set<Manufacturer> manufacturers = manufacturerDAO.getManufacturer();
+        Set<Material> materials = materialDAO.getMaterials();
+        Set<NodeType> nodeTypes = nodeDAO.getParts();
+        Set<Object> objects = objectDAO.getObjectsFromExcel();
 
-        Manufacturer manufacturer1 = new Manufacturer();
-        manufacturer1.setName("Greno Industries, Inc.");
+        Iterator<Manufacturer> manufacturerIterator = manufacturers.iterator();
+        Iterator<Material> materialIterator = materials.iterator();
+        Iterator<NodeType> nodeTypeIterator = nodeTypes.iterator();
+        Iterator<Object> objectIterator = objects.iterator();
 
-        Material material = new Material();
-        material.setName("Steel A286");
+        while (manufacturerIterator.hasNext()) {
+            Manufacturer manufacturer = manufacturerIterator.next();
+            manufacturerRepo.save(manufacturer);
+        }
 
-        Part part = new Part();
-        part.setName("Part");
+        while (materialIterator.hasNext()) {
+            Material material = materialIterator.next();
+            materialRepo.save(material);
+        }
 
-        assemblyRepo.save(assembly);
-        manufacturerRepo.save(manufacturer1);
-        materialRepo.save(material);
-        partRepo.save(part);
+        while (nodeTypeIterator.hasNext()) {
+            NodeType nodeType = nodeTypeIterator.next();
+            nodeTypeRepo.save(nodeType);
+        }
 
-        Object object = new Object("12 Point Bolt ~ New", "LIS-AQgLTE3-18-247222", "8f98c6ee-44db-4e8f-8eb2-841ba825d901", "MA49457ZD-36");
-        object.setIsAssembly(assembly);
-        object.setIsMadeBy(manufacturer1);
-        object.setIsMadeOf(material);
-        object.setIsPart(part);
-
-
-        Material material1 = new Material();
-        material.setName("Aluminium");
-        material.setMaterialID("Steel-1234");
-        materialRepo.save(material);
-
-        Manufacturer manufacturer = new Manufacturer();
-        manufacturer.setName("MD&A");
-        manufacturerRepo.save(manufacturer);
-
-
-        Object object1 = new Object("Compressor shaft", "LIS-EBgSU3Y-18-298277", "aae7498e-946d-453f-8b78-6d070cb7fd0c", "BB35-32-84-P2");
-        object1.setIsPart(part);
-        object1.setIsPartOf(object);
-        object1.setIsMadeOf(material);
-        object1.setIsMadeBy(manufacturer);
-        objectService.save(object);
-
-        MaintinanceEvent maintinanceEvent = new MaintinanceEvent();
-        maintinanceEvent.setAssignmentNumber(3L);
-        maintinanceEvent.setObject(object1);
-        maintinanceEventRepo.save(maintinanceEvent);
-
-        Person person = new Person();
-        person.setName("John Smith");
-        person.setMaintinanceEvent(maintinanceEvent);
-        personRepo.save(person);
-
-        Assignment assignment = new Assignment();
-        assignment.setName("Assg1");
-        assignment.setApprovedBy("Mr. Halland");
-        assignment.setIsDoingBy(person);
-        assignmentRepo.save(assignment);
-
-
-        Maintenance maintenance = new Maintenance();
-        maintenance.setName("12 Point Bolt");
-        maintenance.setSerialNumber("skldfjskldfj");
-        maintenance.setIsAssigned(assignment);
-        maintenanceRepo.save(maintenance);
-
+        while(objectIterator.hasNext()) {
+            Object object = objectIterator.next();
+            object.setIsMadeOf(materialRepo.findByName(object.getMaterialName()));
+            object.setIsMadeBy(manufacturerRepo.findByName(object.getManufacturerName()));
+            object.setNodeType(nodeTypeRepo.findByName(object.getNodeTypeName()));
+            objectRepository.save(object);
+        }
 
     }
 }

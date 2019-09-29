@@ -1,31 +1,47 @@
 package com.ubaid.neo4j.kenalan.entity;
 
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.*;
 
 import java.sql.Timestamp;
 
-@NodeEntity
-public class Assignment extends SEKAI{
-    private int assignmentNumber;
+@RelationshipEntity(type = "isAssigned")
+public class Assignment{
+
+    @StartNode
+    private Maintenance maintenance;
+    private String partName;
+    @EndNode
+    private Person person;
+    private String personName;
+
+    private Integer assignmentNumber;
     private Timestamp timeAssigned;
     private Timestamp timeScheduled;
     private Long timeEstimate;
-    private String approvedBy;
+    private String approvedByName;
 
-    public  Assignment(String name, String serialNumber, String UUID, String partNumber) {
-        super(name, serialNumber, UUID, partNumber);
+
+    public Maintenance getMaintenance() {
+        return maintenance;
     }
 
-    public Assignment() {
-        super(null, null, null, null);
+    public void setMaintenance(Maintenance maintenance) {
+        this.maintenance = maintenance;
     }
 
-    public int getAssignmentNumber() {
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    public Integer getAssignmentNumber() {
         return assignmentNumber;
     }
 
-    public void setAssignmentNumber(int assignmentNumber) {
+    public void setAssignmentNumber(Integer assignmentNumber) {
         this.assignmentNumber = assignmentNumber;
     }
 
@@ -53,36 +69,42 @@ public class Assignment extends SEKAI{
         this.timeEstimate = timeEstimate;
     }
 
-    public String getApprovedBy() {
-        return approvedBy;
+    public String getApprovedByName() {
+        return approvedByName;
     }
 
-    public void setApprovedBy(String approvedBy) {
-        this.approvedBy = approvedBy;
+    public void setApprovedByName(String approvedByName) {
+        this.approvedByName = approvedByName;
+    }
+
+    public String getPartName() {
+        return partName;
+    }
+
+    public void setPartName(String partName) {
+        this.partName = partName;
+    }
+
+    public String getPersonName() {
+        return personName;
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
     }
 
     @Override
     public String toString() {
         return "Assignment{" +
-                "assignmentNumber=" + assignmentNumber +
+                "maintenance=" + maintenance +
+                ", partName='" + partName + '\'' +
+                ", person=" + person +
+                ", personName='" + personName + '\'' +
+                ", assignmentNumber=" + assignmentNumber +
                 ", timeAssigned=" + timeAssigned +
                 ", timeScheduled=" + timeScheduled +
                 ", timeEstimate=" + timeEstimate +
-                ", approvedBy='" + approvedBy + '\'' +
-                ", isDoingBy=" + isDoingBy +
-                ", name='" + name + '\'' +
+                ", approvedByName='" + approvedByName + '\'' +
                 '}';
     }
-
-    @Relationship(type = "isDoingBy", direction = Relationship.OUTGOING)
-    private Person isDoingBy;
-
-    public Person getIsDoingBy() {
-        return isDoingBy;
-    }
-
-    public void setIsDoingBy(Person isDoingBy) {
-        this.isDoingBy = isDoingBy;
-    }
-
 }

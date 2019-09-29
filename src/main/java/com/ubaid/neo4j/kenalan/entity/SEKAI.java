@@ -3,6 +3,8 @@ package com.ubaid.neo4j.kenalan.entity;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.data.annotation.Id;
 
+import java.util.Objects;
+
 @NodeEntity
 class SEKAI {
 
@@ -69,5 +71,23 @@ class SEKAI {
                 ", UUID='" + UUID + '\'' +
                 ", partNumber='" + partNumber + '\'' +
                 '}';
+    }
+
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SEKAI sekai = (SEKAI) o;
+        return Objects.equals(id, sekai.id) &&
+                Objects.equals(name, sekai.name) &&
+                Objects.equals(serialNumber, sekai.serialNumber) &&
+                Objects.equals(UUID, sekai.UUID) &&
+                Objects.equals(partNumber, sekai.partNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, serialNumber, UUID, partNumber);
     }
 }

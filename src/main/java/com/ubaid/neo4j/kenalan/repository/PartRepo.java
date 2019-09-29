@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PartRepo extends Neo4jRepository<Part, Long> {
+
+    public Part findByName(String name);
 }

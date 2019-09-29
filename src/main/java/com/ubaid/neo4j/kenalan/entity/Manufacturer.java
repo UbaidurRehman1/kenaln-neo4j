@@ -2,6 +2,8 @@ package com.ubaid.neo4j.kenalan.entity;
 
 import org.neo4j.ogm.annotation.NodeEntity;
 
+import java.util.Objects;
+
 @NodeEntity
 public class Manufacturer extends  SEKAI{
 
@@ -59,5 +61,18 @@ public class Manufacturer extends  SEKAI{
                 ", phone='" + phone + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Manufacturer)) return false;
+        Manufacturer that = (Manufacturer) o;
+        return name.equals(that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName());
     }
 }

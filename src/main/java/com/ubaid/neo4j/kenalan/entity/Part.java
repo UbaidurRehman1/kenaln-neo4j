@@ -3,7 +3,7 @@ package com.ubaid.neo4j.kenalan.entity;
 import org.neo4j.ogm.annotation.NodeEntity;
 
 @NodeEntity
-public class Part extends  SEKAI {
+public class Part extends  NodeType {
     public Part(String name, String serialNumber, String UUID, String partNumber) {
         super(name, serialNumber, UUID, partNumber);
     }
@@ -17,5 +17,15 @@ public class Part extends  SEKAI {
         return "Part{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

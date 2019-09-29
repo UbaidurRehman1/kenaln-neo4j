@@ -16,21 +16,21 @@ public class Maintenance extends SEKAI{
 
     }
 
-    @Relationship(type = "isAssigned", direction = Relationship.OUTGOING)
-    private Assignment isAssigned;
+//    @Relationship(type = "isAssigned", direction = Relationship.OUTGOING)
+//    private Assignment isAssigned;
 
-    public Assignment getIsAssigned() {
-        return isAssigned;
-    }
+//    public Assignment getIsAssigned() {
+//        return isAssigned;
+//    }
 
-    public void setIsAssigned(Assignment isAssigned) {
-        this.isAssigned = isAssigned;
-    }
+//    public void setIsAssigned(Assignment isAssigned) {
+//        this.isAssigned = isAssigned;
+//    }
 
     @Override
     public String toString() {
         return "Maintenance{" +
-                "isAssigned=" + isAssigned +
+//                "isAssigned=" + isAssigned +
                 ", name='" + name + '\'' +
                 '}';
     }

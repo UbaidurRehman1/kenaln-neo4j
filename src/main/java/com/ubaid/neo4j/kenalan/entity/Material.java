@@ -2,6 +2,8 @@ package com.ubaid.neo4j.kenalan.entity;
 
 import org.neo4j.ogm.annotation.NodeEntity;
 
+import java.util.Objects;
+
 @NodeEntity
 public class Material extends SEKAI{
 
@@ -29,5 +31,19 @@ public class Material extends SEKAI{
                 "materialID='" + materialID + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Material material = (Material) o;
+        return Objects.equals(getName(), material.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getName());
     }
 }
