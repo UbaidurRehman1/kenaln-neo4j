@@ -1,10 +1,11 @@
 package com.ubaid.neo4j.kenalan.entity;
 
+import com.ubaid.neo4j.kenalan.util.Labels;
 import org.neo4j.ogm.annotation.*;
 
 import java.sql.Timestamp;
 
-@RelationshipEntity(type = "isAssigned")
+@RelationshipEntity(type = Labels.IS_ASSIGNED)
 public class Assignment{
 
     @StartNode

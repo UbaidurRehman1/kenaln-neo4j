@@ -1,11 +1,11 @@
 package com.ubaid.neo4j.kenalan.entity;
 
+import com.ubaid.neo4j.kenalan.util.Labels;
 import org.neo4j.ogm.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.List;
 
-@RelationshipEntity(type = "isDoingMaintenanceEvent")
+@RelationshipEntity(type = Labels.IS_DOING_MAINTENANCE_EVENT)
 public class MaintenanceEvent {
 
     @StartNode

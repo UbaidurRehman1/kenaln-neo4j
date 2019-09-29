@@ -1,8 +1,8 @@
 package com.ubaid.neo4j.kenalan.entity;
 
+import com.ubaid.neo4j.kenalan.util.Labels;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
-import org.neo4j.ogm.annotation.RelationshipEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Person extends  SEKAI{
 
     private Long EmployeeId;
 
-    @Relationship(type = "isAssigned")
+    @Relationship(type = Labels.IS_ASSIGNED)
     private List<Maintenance> assignments;
 
     public Person(String name, String serialNumber, String UUID, String partNumber) {

@@ -1,5 +1,6 @@
 package com.ubaid.neo4j.kenalan.entity;
 
+import com.ubaid.neo4j.kenalan.util.Labels;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 import org.springframework.data.annotation.Id;
@@ -10,7 +11,7 @@ import java.util.List;
 @NodeEntity
 public class Object extends SEKAI{
 
-    @Relationship(type = "isDoingMaintenanceEvent")
+    @Relationship(type = Labels.IS_DOING_MAINTENANCE_EVENT)
     private List<Person> isDoingMaintenanceEvents;
 
     public Object(String name, String serialNumber, String UUID, String partNumber) {
@@ -21,17 +22,17 @@ public class Object extends SEKAI{
         super(null, null, null, null);
     }
 
-    @Relationship(type = "isPartOf", direction = Relationship.OUTGOING)
+    @Relationship(type = "IS_PART_OF", direction = Relationship.OUTGOING)
     private Object isPartOf;
 
-    @Relationship(type = "is", direction = Relationship.OUTGOING)
+    @Relationship(type = Labels.IS, direction = Relationship.OUTGOING)
     private NodeType nodeType;
 
 
-    @Relationship(type = "isMadeOf", direction = Relationship.INCOMING)
+    @Relationship(type = Labels.IS_MADE_OF, direction = Relationship.INCOMING)
     private Material isMadeOf;
 
-    @Relationship(type = "isMadeBy", direction = Relationship.INCOMING)
+    @Relationship(type = Labels.IS_MADE_BY, direction = Relationship.INCOMING)
     private Manufacturer isMadeBy;
 
     public Object getIsPartOf() {
