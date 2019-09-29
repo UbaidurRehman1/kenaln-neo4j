@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MaintinanceRepo extends Neo4jRepository<Maintenance, Long> {
+    public Maintenance findByName(String name);
 }

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonRepo extends Neo4jRepository<Person, Long> {
+    public Person findByName(String name);
 }

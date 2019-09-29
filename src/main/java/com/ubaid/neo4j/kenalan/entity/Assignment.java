@@ -17,8 +17,11 @@ public class Assignment{
     private Integer assignmentNumber;
     private Timestamp timeAssigned;
     private Timestamp timeScheduled;
-    private Long timeEstimate;
+    private float timeEstimate;
     private String approvedByName;
+
+    @Id
+    private Long id;
 
 
     public Maintenance getMaintenance() {
@@ -61,11 +64,11 @@ public class Assignment{
         this.timeScheduled = timeScheduled;
     }
 
-    public Long getTimeEstimate() {
+    public float getTimeEstimate() {
         return timeEstimate;
     }
 
-    public void setTimeEstimate(Long timeEstimate) {
+    public void setTimeEstimate(float timeEstimate) {
         this.timeEstimate = timeEstimate;
     }
 
@@ -96,9 +99,7 @@ public class Assignment{
     @Override
     public String toString() {
         return "Assignment{" +
-                "maintenance=" + maintenance +
                 ", partName='" + partName + '\'' +
-                ", person=" + person +
                 ", personName='" + personName + '\'' +
                 ", assignmentNumber=" + assignmentNumber +
                 ", timeAssigned=" + timeAssigned +
@@ -106,5 +107,13 @@ public class Assignment{
                 ", timeEstimate=" + timeEstimate +
                 ", approvedByName='" + approvedByName + '\'' +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

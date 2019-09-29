@@ -19,6 +19,7 @@ public class MaintenanceEvent {
     private Long duration;
     private boolean completed;
 
+
     public MaintenanceEvent(Long assignmentNumber, Timestamp time, Long duration, boolean completed) {
         this.assignmentNumber = assignmentNumber;
         this.time = time;

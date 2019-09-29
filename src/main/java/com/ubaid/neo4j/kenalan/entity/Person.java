@@ -6,6 +6,7 @@ import org.neo4j.ogm.annotation.RelationshipEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @NodeEntity
 public class Person extends  SEKAI{
@@ -58,5 +59,19 @@ public class Person extends  SEKAI{
                 ", assignments=" + assignments +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Person person = (Person) o;
+        return Objects.equals(getName(), person.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getName());
     }
 }
