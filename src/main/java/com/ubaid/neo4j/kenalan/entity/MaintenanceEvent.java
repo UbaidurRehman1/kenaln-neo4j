@@ -14,10 +14,16 @@ public class MaintenanceEvent {
     @EndNode
     private Object object;
 
+    @Id
+    private Long id;
+
     private Long assignmentNumber;
     private Timestamp time;
     private Long duration;
     private boolean completed;
+    private String type;
+    private String personName;
+    private String objectName;
 
 
     public MaintenanceEvent(Long assignmentNumber, Timestamp time, Long duration, boolean completed) {
@@ -97,5 +103,37 @@ public class MaintenanceEvent {
                 ", duration=" + duration +
                 ", completed=" + completed +
                 '}';
+    }
+
+    public String getPersonName() {
+        return personName;
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
+
+    public String getObjectName() {
+        return objectName;
+    }
+
+    public void setObjectName(String objectName) {
+        this.objectName = objectName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

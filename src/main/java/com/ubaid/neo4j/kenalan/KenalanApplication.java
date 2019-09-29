@@ -70,6 +70,12 @@ public class KenalanApplication implements CommandLineRunner
     @Autowired
     MaintinanceRepo maintinanceRepo;
 
+    @Autowired
+    MaintenanceEventDAO maintenanceEventDAO;
+
+    @Autowired
+    MaintenanceEventRepo maintenanceEventRepo;
+
 
     public static void main(String[] args) {
         SpringApplication.run(KenalanApplication.class, args);
@@ -139,6 +145,21 @@ public class KenalanApplication implements CommandLineRunner
             personRepo.save(person);
             assignment.setId((long) counter);
             assignmentRepo.save(assignment);
+        }
+
+        List<MaintenanceEvent> maintenanceEvents = maintenanceEventDAO.getAllMaintenanceEvent();
+
+        counter = 0;
+        for (MaintenanceEvent maintenanceEvent : maintenanceEvents) {
+            counter++;
+            Person person = personRepo.findByName(maintenanceEvent.getPersonName());
+            Object object = objectRepository.findByName(maintenanceEvent.getObjectName());
+            maintenanceEvent.setPerson(person);
+            maintenanceEvent.setObject(object);
+            object.addPerson(person);
+            maintenanceEvent.setId((long) counter);
+            objectRepository.save(object);
+            maintenanceEventRepo.save(maintenanceEvent);
         }
 
     }
